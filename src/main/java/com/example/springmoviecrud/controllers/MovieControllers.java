@@ -2,7 +2,6 @@ package com.example.springmoviecrud.controllers;
 
 import com.example.springmoviecrud.models.Movie;
 import com.example.springmoviecrud.repositories.MovieRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +13,12 @@ import java.util.Optional;
 @RequestMapping("/api/movies")
 public class MovieControllers {
 
-    @Autowired
-    private MovieRepository movieRepository;
+    private final MovieRepository movieRepository;
+
+    public MovieControllers(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
+    }
+
 
     @GetMapping
     public ResponseEntity<List<Movie>> getAllMovies() {
