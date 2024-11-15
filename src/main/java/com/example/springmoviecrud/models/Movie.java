@@ -36,13 +36,13 @@ public class Movie {
     @Column(nullable = false)
     private Integer duration; // in minutes
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 255)
     private String genre;
 
     @Column(nullable = false, length = 255)
     private String director;
 
-    @Column(precision = 3, scale = 1)
+    @Column(nullable = false, precision = 3, scale = 1)
     @DecimalMin(value = "1.0", inclusive = true)
     @DecimalMax(value = "10.0", inclusive = true)
     private BigDecimal rating;

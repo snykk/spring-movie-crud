@@ -2,10 +2,14 @@ package com.example.springmoviecrud.controllers;
 
 import com.example.springmoviecrud.models.Movie;
 import com.example.springmoviecrud.repositories.MovieRepository;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +23,7 @@ public class MovieControllers {
         this.movieRepository = movieRepository;
     }
 
+//    private static final Logger logger = LoggerFactory.getLogger(MovieControllers.class);
 
     @GetMapping
     public ResponseEntity<List<Movie>> getAllMovies() {
@@ -83,4 +88,20 @@ public class MovieControllers {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Movie>> searchMovies(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) BigDecimal minRating,
+            @RequestParam(required = false) LocalDate startDate,
+            @RequestParam(required = false) LocalDate endDate) {
+
+//        logger.info("Search Parameters received: title={}, genre={}, minRating={}, startDate={}, endDate={}",
+//                title, genre, minRating, startDate, endDate);
+
+        List<Movie> movies = movieRepository.advancedSearch(title, genre, minRating, startDate, endDate);
+        return new ResponseEntity<>(movies, HttpStatus.OK);
+    }
+
 }
